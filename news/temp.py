@@ -101,4 +101,3 @@ for d in list(models.Comment.objects.filter(post_id=models.Post.objects.order_by
 
 
 
-
