@@ -8,6 +8,10 @@ News
 
 {% block content %}
    <h1>Новостная лента</h1>
+   <form action="" method="get">
+       {{ filter_set.form.as_p }}
+       <input type="submit" value="Найти" />
+   </form>
    <hr>
 
    {% if news %}
