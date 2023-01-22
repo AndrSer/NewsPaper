@@ -2,11 +2,11 @@ from django.contrib.auth.models import User
 from django.db import models
 from news.resources import KIND
 from django.db.models import Sum
+from django.urls import reverse
 
 
 class Author(models.Model):
     rating = models.IntegerField(default=0)
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def update_rating(self):
@@ -20,9 +20,15 @@ class Author(models.Model):
         self.rating = count_rating_posts * 3 + count_rating_comments
         self.save()
 
+    def __str__(self):
+        return str(self.user)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, default='unnamed', unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
@@ -40,6 +46,9 @@ class Post(models.Model):
 
     def __str__(self):
         return str(self.header + ' | ' + self.preview())
+
+    def get_absolute_url(self):
+        return reverse('post', args=[str(self.id)])
 
     def like(self):
         self.rating += 1
